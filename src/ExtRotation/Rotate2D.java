@@ -53,8 +53,8 @@ public class Rotate2D
                 // 
                 //  System.out.print("Enter y cocordinate of point " + i + ": ");
                 //  yPoint = input.nextDouble();
-                //  Point2D p = new Point2D();
-                //  pointsList.add(p.toString(xPoint, yPoint)); // would it work?
+                //  Point2D p = new Point2D(xPoint, yPoint);
+                //  pointsList.add(p.toString()); // would it work?
                 //  }
                 //}
                 

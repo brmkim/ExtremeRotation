@@ -11,14 +11,21 @@ package ExtRotation;
  */
 public class Point2D 
 {
-   
-   public String toString(double x, double y)
+    private double yPoint = 0.0;
+    private double xPoint = 0.0;
+
+   public Point2D(double xPoint, double yPoint)
    {
-       String xPoint = String.valueOf(x);
-       String yPoint = String.valueOf(y);
-       String pointsSet = xPoint + ", " + yPoint;
+       this.xPoint = xPoint;
+       this.yPoint = yPoint;
+   }
+   public String toString()
+   {
+       String xPointStr = String.valueOf(xPoint);
+       String yPointStr = String.valueOf(yPoint);
+       String pointsSetStr = xPointStr + ", " + yPointStr;
        
-       return pointsSet;
+       return pointsSetStr;
    }
     
 }
