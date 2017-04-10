@@ -15,12 +15,18 @@ public class Point2D
     private double xPoint = 0.0;
     private double point = 0.0;
 
+    // default constructor
+    public Point2D()
+    {
+        this(0, 0);
+    }
+    // constructor that takes x & y points
     public Point2D(double xPoint, double yPoint) // not using it yet
     {
         this.xPoint = xPoint;
         this.yPoint = yPoint;
     }
-
+    // constructor that takes only one point (and set the other to 0)
     public Point2D(double point) 
     {
         this.point = point;

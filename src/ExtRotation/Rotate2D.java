@@ -53,11 +53,10 @@ public class Rotate2D
                     for (int i = 1; i >= 1 && repeat; i++ )
                     {
                         System.out.print("Enter x coordinate of point " + i + ": ");
-                        point = input.nextDouble();
-                        p2d = new Point2D(point);
+                        xPoint = input.nextDouble();
                         System.out.print("Enter y cocordinate of point " + i + ": ");
-                        point = input.nextDouble();
-                        p2d = new Point2D(point);
+                        yPoint = input.nextDouble();
+                        p2d = new Point2D(xPoint, yPoint);                        
                         pointsList.add(p2d);
                         System.out.println(pointsList);  // test purpose
                     }
