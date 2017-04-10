@@ -21,7 +21,8 @@ public class Rotate2D
 {
     public static void main(String[] args)
     {
-        if (args.length < 2)
+        Point2D p2d;
+        if (args.length < 2)  // else read input file
         {
             System.out.print("Would you like to read from a text file? (y/n) ");
             Scanner input = new Scanner(System.in);
@@ -41,24 +42,28 @@ public class Rotate2D
                 System.out.println("No points are entered.");
                 System.out.println("Enter your list of points.");
                 System.out.println("Enter a non-numeric value to stop.");
-                double xPoint = 0;
-                double yPoint = 0;
-                ArrayList<Double> pointsList = new ArrayList<>();
-                //while (xPoint is not non-nemeric str || yPoint is not...)
-                //{    
-                //  for (int i = 1; i >= 1 && is numeric str; i++ )
-                //  {
-                //  System.out.print("Enter x coordinate of point " + i + ": ");
-                //  xPoint = input.nextDouble();
-                // 
-                //  System.out.print("Enter y cocordinate of point " + i + ": ");
-                //  yPoint = input.nextDouble();
-                //  Point2D p = new Point2D(xPoint, yPoint);
-                //  pointsList.add(p.toString()); // would it work?
-                //  }
-                //}
+                double xPoint = 0.0;
+                double yPoint = 0.0;
+                double point = 0.0;
+                ArrayList<Point2D> pointsList = new ArrayList<>();
                 
-                // transfer the ArrayList to Print2D class
+                boolean repeat = true;
+                do
+                {
+                    for (int i = 1; i >= 1 && repeat; i++ )
+                    {
+                        System.out.print("Enter x coordinate of point " + i + ": ");
+                        point = input.nextDouble();
+                        p2d = new Point2D(point);
+                        System.out.print("Enter y cocordinate of point " + i + ": ");
+                        point = input.nextDouble();
+                        p2d = new Point2D(point);
+                        pointsList.add(p2d);
+                        System.out.println(pointsList);  // test purpose
+                    }
+                } while(repeat);
+                
+                
             }
             
                

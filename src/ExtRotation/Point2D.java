@@ -13,12 +13,20 @@ public class Point2D
 {
     private double yPoint = 0.0;
     private double xPoint = 0.0;
+    private double point = 0.0;
 
-   public Point2D(double xPoint, double yPoint)
-   {
-       this.xPoint = xPoint;
-       this.yPoint = yPoint;
-   }
+    public Point2D(double xPoint, double yPoint) // not using it yet
+    {
+        this.xPoint = xPoint;
+        this.yPoint = yPoint;
+    }
+
+    public Point2D(double point) 
+    {
+        this.point = point;
+    }
+
+     
    public String toString()
    {
        String xPointStr = String.valueOf(xPoint);
