@@ -54,8 +54,9 @@ public class Rotate2D
                     for (int i = 1; i >= 1 ; i++ )
                     {
                         System.out.print("Enter x coordinate of point " + i + ": ");
-                        if (input.hasNextDouble())
-                            xPoint = input.nextDouble();
+                        Scanner xInput = new Scanner(System.in);
+                        if (xInput.hasNextDouble())
+                            xPoint = xInput.nextDouble();
                         else
                         {
                             repeat = false;
@@ -63,8 +64,9 @@ public class Rotate2D
                         }
                         
                         System.out.print("Enter y cocordinate of point " + i + ": ");
-                        if (input.hasNextDouble())
-                            yPoint = input.nextDouble();
+                        Scanner yInput = new Scanner(System.in);
+                        if (yInput.hasNextDouble())
+                            yPoint = yInput.nextDouble();
                         else
                         {
                             repeat = false;
@@ -81,8 +83,9 @@ public class Rotate2D
                 
                 System.out.print("Please enter the angle of rotation ");
                 System.out.print("(-360 <= angle <= 360): ");
-                if (input.hasNextDouble())
-                    angle = input.nextDouble();
+                Scanner angleInput = new Scanner(System.in);
+                if (angleInput.hasNextDouble())
+                    angle = angleInput.nextDouble();
                 double radian = angle * (Math.PI / 180);
                 System.out.println("in radian: " + radian); // test purpose
             }
