@@ -11,6 +11,7 @@
 package ExtRotation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -45,35 +46,51 @@ public class Rotate2D
                 double xPoint = 0.0;
                 double yPoint = 0.0;
                 double point = 0.0;
+                double angle = 0.0;
                 ArrayList<Point2D> pointsList = new ArrayList<>();
-                
                 boolean repeat = true;
-                do
+                do 
                 {
-                    for (int i = 1; i >= 1 && repeat; i++ )
+                    for (int i = 1; i >= 1 ; i++ )
                     {
                         System.out.print("Enter x coordinate of point " + i + ": ");
-                        xPoint = input.nextDouble();
+                        if (input.hasNextDouble())
+                            xPoint = input.nextDouble();
+                        else
+                        {
+                            repeat = false;
+                            break;
+                        }
+                        
                         System.out.print("Enter y cocordinate of point " + i + ": ");
-                        yPoint = input.nextDouble();
+                        if (input.hasNextDouble())
+                            yPoint = input.nextDouble();
+                        else
+                        {
+                            repeat = false;
+                            break;
+                        }
                         p2d = new Point2D(xPoint, yPoint);                        
                         pointsList.add(p2d);
-                        System.out.println(pointsList);  // test purpose
-                        
-                        // need to insert condition that catches non-numeric
-                        // input, set repeat to false, and gets out of the loop.
+                        for (Point2D p: pointsList) // printing for test purpose
+                            System.out.print("<" + p.xPoint + ", " + p.yPoint + "> ");
+                        System.out.println();
+
                     }
-                } while(repeat);
+                }while(repeat);
+                
                 System.out.print("Please enter the angle of rotation ");
                 System.out.print("(-360 <= angle <= 360): ");
-                double angle = input.nextDouble();
+                if (input.hasNextDouble())
+                    angle = input.nextDouble();
                 double radian = angle * (Math.PI / 180);
-                
+                System.out.println("in radian: " + radian); // test purpose
             }
             
                
         }
-        
+       
     }
+   
     
 }

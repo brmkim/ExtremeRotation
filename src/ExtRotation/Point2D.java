@@ -13,8 +13,8 @@ import java.util.ArrayList;
  */
 public class Point2D 
 {
-    private double yPoint = 0.0;
-    private double xPoint = 0.0;
+    double yPoint = 0.0;
+    double xPoint = 0.0;
     private double point = 0.0;
     private double radian = 0.0;
 
