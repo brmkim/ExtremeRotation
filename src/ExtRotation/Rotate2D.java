@@ -59,9 +59,15 @@ public class Rotate2D
                         p2d = new Point2D(xPoint, yPoint);                        
                         pointsList.add(p2d);
                         System.out.println(pointsList);  // test purpose
+                        
+                        // need to insert condition that catches non-numeric
+                        // input, set repeat to false, and gets out of the loop.
                     }
                 } while(repeat);
-                
+                System.out.print("Please enter the angle of rotation ");
+                System.out.print("(-360 <= angle <= 360): ");
+                double angle = input.nextDouble();
+                double radian = angle * (Math.PI / 180);
                 
             }
             
