@@ -66,13 +66,17 @@ public class Rotate2D
                         System.out.print("Enter y cocordinate of point " + i + ": ");
                         Scanner yInput = new Scanner(System.in);
                         if (yInput.hasNextDouble())
+                        {
                             yPoint = yInput.nextDouble();
+                            p2d = new Point2D(xPoint, yPoint);  
+                        }
                         else
                         {
+                            p2d = new Point2D(xPoint);
                             repeat = false;
                             break;
                         }
-                        p2d = new Point2D(xPoint, yPoint);                        
+                                              
                         pointsList.add(p2d);
                         
 
@@ -85,20 +89,17 @@ public class Rotate2D
                 if (angleInput.hasNextDouble())
                     angle = angleInput.nextDouble();
                 double radian = angle * (Math.PI / 180);
-                
+                // show entered points
                 System.out.println("entered points: ");  
-                for (Point2D p: pointsList) // printing for test purpose
-                            System.out.print("<" + p.xPoint + ", " + p.yPoint + "> ");
+                for (Point2D p: pointsList) // printing 
+                    System.out.print("<" + p.xPoint + ", " + p.yPoint + "> ");
                 System.out.println();
-                
+                // show rotated points
                 ArrayList<Point2D> rotated = p2d.rotator(pointsList, radian);
-                System.out.print("points rotated " + angle + " degrees: ");
-//                 for (Point2D r: rotated)
-//                  {
-//                            System.out.print(" ");
-//                        System.out.println();
-//                  }
-            
+                System.out.println("points rotated " + angle + " degrees: ");
+                 for (Point2D r: rotated)
+                    System.out.print("<" + r.xPoint + ", " + r.yPoint + "> ");
+                        
                
         }
        
