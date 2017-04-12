@@ -22,7 +22,7 @@ public class Rotate2D
 {
     public static void main(String[] args)
     {
-        Point2D p2d;
+        Point2D p2d = new Point2D();
         if (args.length < 2)  // else read input file
         {
             System.out.print("Would you like to read from a text file? (y/n) ");
@@ -74,9 +74,7 @@ public class Rotate2D
                         }
                         p2d = new Point2D(xPoint, yPoint);                        
                         pointsList.add(p2d);
-                        for (Point2D p: pointsList) // printing for test purpose
-                            System.out.print("<" + p.xPoint + ", " + p.yPoint + "> ");
-                        System.out.println();
+                        
 
                     }
                 }while(repeat);
@@ -87,13 +85,24 @@ public class Rotate2D
                 if (angleInput.hasNextDouble())
                     angle = angleInput.nextDouble();
                 double radian = angle * (Math.PI / 180);
-                System.out.println("in radian: " + radian); // test purpose
-            }
+                
+                System.out.println("entered points: ");  
+                for (Point2D p: pointsList) // printing for test purpose
+                            System.out.print("<" + p.xPoint + ", " + p.yPoint + "> ");
+                System.out.println();
+                
+                ArrayList<Point2D> rotated = p2d.rotator(pointsList, radian);
+                System.out.print("points rotated " + angle + " degrees: ");
+//                 for (Point2D r: rotated)
+//                  {
+//                            System.out.print(" ");
+//                        System.out.println();
+//                  }
             
                
         }
        
     }
    
-    
+    }  
 }

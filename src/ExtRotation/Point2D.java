@@ -15,9 +15,7 @@ public class Point2D
 {
     double yPoint = 0.0;
     double xPoint = 0.0;
-    private double point = 0.0;
-    private double radian = 0.0;
-
+    double point = 0.0;
     // default constructor
     public Point2D()
     {
@@ -41,15 +39,10 @@ public class Point2D
     // Rotator
     public ArrayList rotator(ArrayList<Point2D> al, double theta)
     {
-        // if statement: angle > 0 -- rotate counter clockwise 
-        // else if angle < 0 -- rotate clockwise
         double[][] clockwise = { 
             {Math.cos(theta), -Math.sin(theta)},
             {Math.sin(theta), Math.cos(theta)} };
-        double[][] counterCW = {
-            {Math.cos(theta), Math.sin(theta)},
-            {-Math.sin(theta), Math.cos(theta)} };
-        
+       
         // more code
         return al;
     }
