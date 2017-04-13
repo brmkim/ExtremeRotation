@@ -10,6 +10,7 @@
  */
 package ExtRotation;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -43,11 +44,10 @@ public class Rotate2D
                 System.out.println("No points are entered.");
                 System.out.println("Enter your list of points.");
                 System.out.println("Enter a non-numeric value to stop.");
-                double xPoint = 0.0;
-                double yPoint = 0.0;
-                double point = 0.0;
-                double angle = 0.0;
+
+                Double xPoint = null, yPoint = null, point = null, angle = null;
                 ArrayList<Point2D> pointsList = new ArrayList<>();
+                
                 boolean repeat = true;
                 do 
                 {
@@ -55,7 +55,7 @@ public class Rotate2D
                     {
                         System.out.print("Enter x coordinate of point " + i + ": ");
                         Scanner xInput = new Scanner(System.in);
-                        if (xInput.hasNextDouble())
+                        if (xInput.hasNextDouble())   // change it to while (xInput.hasNextDouble())
                             xPoint = xInput.nextDouble();
                         else
                         {
@@ -88,17 +88,17 @@ public class Rotate2D
                 Scanner angleInput = new Scanner(System.in);
                 if (angleInput.hasNextDouble())
                     angle = angleInput.nextDouble();
-                double radian = angle * (Math.PI / 180);
+                Double radian = angle * (Math.PI / 180);
                 // show entered points
                 System.out.println("entered points: ");  
                 for (Point2D p: pointsList) // printing 
-                    System.out.print("<" + p.xPoint + ", " + p.yPoint + "> ");
-                System.out.println();
+                    System.out.println("(" + p.xPoint + ", " + p.yPoint + ") ");
                 // show rotated points
                 ArrayList<Point2D> rotated = p2d.rotator(pointsList, radian);
                 System.out.println("points rotated " + angle + " degrees: ");
+                DecimalFormat twoDP = new DecimalFormat("###0.0#");
                  for (Point2D r: rotated)
-                    System.out.print("<" + r.xPoint + ", " + r.yPoint + "> ");
+                    System.out.println("(" + twoDP.format(r.xPoint) + ", " + twoDP.format(r.yPoint) + ")");
                         
                
         }

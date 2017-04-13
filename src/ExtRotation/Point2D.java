@@ -21,38 +21,43 @@ public class Point2D
     // default constructor
     public Point2D()
     {
-        this(0, 0);
+        this(0.0, 0.0);
     }
     // constructor that takes x & y points
-    public Point2D(double xPoint, double yPoint) // not using it yet
+    public Point2D(Double x, Double y) 
     {
-        this.xPoint = xPoint;
-        this.yPoint = yPoint;
+        xPoint = x;  // not using 'this.'
+        yPoint = y;
     }
     // constructor that takes only one point (and set the other to 0)
-    public Point2D(double xPoint) 
+    public Point2D(Double x) // not working as I expected
     {
-        this.xPoint = xPoint;  // not working as I imagined
-        this.yPoint = 0.0;
+        xPoint = x;  
+        yPoint = 0.0;
     }
-    // accessor - access x & y points in the ArrayList?
+    // accessors
+    public double getX()
+    {
+        return xPoint;
+    }
+    public double getY()
+    {
+        return yPoint;
+    }
+    
     // mutator - ?
     
     // Rotator
     public ArrayList rotator(ArrayList<Point2D> pointsList, double theta)
     {
         ArrayList<Point2D> rotatedPoints = new ArrayList<>();
-        double[][] clockwise = { 
-            {Math.cos(theta), -Math.sin(theta)},
-            {Math.sin(theta), Math.cos(theta)} };
-       
-        
+
         for (Point2D pt: pointsList) 
         {   // some problem here that needs to be fixed
-            xPrime = (pt.xPoint *  clockwise[0][0]) 
-                    + (pt.yPoint * clockwise[0][1]);
-            yPrime = (pt.xPoint * clockwise[1][0]) 
-                    + (pt.yPoint * clockwise[1][1]);
+            xPrime = (pt.xPoint *  Math.cos(theta) 
+                    - pt.yPoint * Math.sin(theta));
+            yPrime = (pt.xPoint *  Math.sin(theta) ) 
+                    + (pt.yPoint * Math.cos(theta));
             Point2D sets = new Point2D(xPrime, yPrime); 
             rotatedPoints.add(sets);
         }
