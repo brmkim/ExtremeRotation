@@ -35,24 +35,17 @@ public class Rotate2D
         {
             System.out.print("Would you like to read from a text file? (y/n) ");
             Scanner input = new Scanner(System.in);
-            String textQn = input.next();
+            String response = input.next();
             // prompt until correct character is entered
-            while (!(textQn.equals("Y") || textQn.equals("y") || textQn.equals("N") 
-                    || textQn.equals("n")) )
+            while (!(response.equals("Y") || response.equals("y") 
+                    || response.equals("N") || response.equals("n")) )
             {
-                System.out.print("Would you like to read from a text file? (y/n) ");
-                textQn = input.next();
+                System.out.print("Would you like to read from a text file? "
+                        + "(y/n) ");
+                response = input.next();
             }
-            
-            if (textQn.equals("Y") || textQn.equals("y"))
-            {// ask file input
-                System.out.print("Enter the file name: ");
-                String filename = input.next();
-                ReadFile newRead = new ReadFile(filename);
-                
-             }
-                        
-            else if (textQn.equals("N") || textQn.equals("n"))
+            // When not reading from a file            
+            if (response.equals("N") || response.equals("n"))
             {
                 System.out.println("No points are entered.");
                 System.out.println("Enter your list of points.");
@@ -66,7 +59,8 @@ public class Rotate2D
                 {
                     for (int i = 1; i <= 30 ; i++ ) // the purpose of this for loop is to keep track of point sets entered
                     {
-                        System.out.print("Enter x coordinate of point " + i + ": ");
+                        System.out.print("Enter x coordinate of point " 
+                                + i + ": ");
                         if (input.hasNextDouble())  
                             xPoint = input.nextDouble();
                         else
@@ -74,7 +68,8 @@ public class Rotate2D
                             repeat = false;
                             break;
                         }
-                        System.out.print("Enter y cocordinate of point " + i + ": ");
+                        System.out.print("Enter y cocordinate of point " 
+                                + i + ": ");
                         yPoint = 0.0; // reinitializing to 0 in case this value is not entered
                         if (input.hasNextDouble())
                             yPoint = input.nextDouble();
@@ -116,8 +111,57 @@ public class Rotate2D
                     System.out.println("(" + twoDP.format(p.xPoint) + ", " 
                             + twoDP.format(p.yPoint) + ")");   
             }
-            // save, write file
-        }
-   
+            // When reading from a file    
+            else if (response.equals("Y") || response.equals("y"))  // needs some fixing
+            {   // ask file input
+                 ObjectInputStream inputStream = null;
+                System.out.print("Enter the file name: ");
+                String filename = input.next();
+                            
+                // read file
+                try
+                {
+                    inputStream = new ObjectInputStream(
+                            new FileInputStream(filename));
+                }
+                catch (IOException e)
+                {
+                    System.out.println("Error opening input file " 
+                            + filename + ".");
+                    System.exit(0);
+                }
+                Point2D readOne = null; // destroy old objects
+                try
+                {
+                    readOne = (Point2D) inputStream.readObject();
+                    inputStream.close();
+                }
+                catch(Exception e)
+                {
+                    System.out.println("Error reading from file " 
+                            + filename + ".");
+                    System.exit(0);
+                }
+                System.out.println(readOne);
+            }
+            // ask if the user wants to save the original and/or 
+            // rotated points into a binary file
+            String file = "";
+            System.out.println("Save original points as binary file?");
+            response = input.next();
+            if (response.equals("Y") || response.equals("y")) 
+            {
+                System.out.print("Enter the file name: ");
+                file = input.next();
+                // more code                
+            }
+            System.out.println("Save rotate points as binary file?");
+            if (response.equals("Y") || response.equals("y")) 
+            {
+                System.out.print("Enter the file name: ");
+                file = input.next();
+                // more code                
+            }
+        }    
     }  
 }
