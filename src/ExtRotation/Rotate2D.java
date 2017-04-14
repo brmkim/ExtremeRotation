@@ -27,7 +27,7 @@ import java.util.Scanner;
  */
 public class Rotate2D 
 {
-    public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException
+    public static void main(String[] args)
     {
         
         Point2D p2d = null;
@@ -64,8 +64,6 @@ public class Rotate2D
                 boolean repeat = true;
                 do 
                 {
-                    yPoint = 0.0; // this should set yPoint to 0 when y coordinate is not entered 
-                                  // but when there's other value in yPoint already, it retains that value instead of reinitializing to 0. WHY?
                     for (int i = 1; i <= 30 ; i++ ) // the purpose of this for loop is to keep track of point sets entered
                     {
                         System.out.print("Enter x coordinate of point " + i + ": ");
@@ -77,6 +75,7 @@ public class Rotate2D
                             break;
                         }
                         System.out.print("Enter y cocordinate of point " + i + ": ");
+                        yPoint = 0.0; // reinitializing to 0 in case this value is not entered
                         if (input.hasNextDouble())
                             yPoint = input.nextDouble();
                         else
@@ -100,10 +99,9 @@ public class Rotate2D
                 System.out.println("entered points: ");  
                 for (Point2D p: pointsList) // printing 
                     System.out.println("(" + p.xPoint + ", " + p.yPoint + ") ");
-                // show rotated points
-                Point2D[] arr = new Point2D[pointsList.size()]; // Point2D object array?
-                Point2D[] convertedArr = new Point2D[pointsList.size()]; // Point2D array of converted values
-                arr = pointsList.toArray(arr); // ArrayList pointsList to Point2D array, arr
+                Point2D[] arr = new Point2D[pointsList.size()]; 
+                Point2D[] convertedArr = new Point2D[pointsList.size()]; 
+                arr = pointsList.toArray(arr);
                
                 System.out.println("points rotated " + angle + " degrees: ");
                 for (int i = 0; i < pointsList.size(); i++)
@@ -112,6 +110,7 @@ public class Rotate2D
                     Point2D convteredPoint = Point2D.rotator(point, radian);
                     convertedArr[i] = convteredPoint;
                 }
+                // show rotated points
                 DecimalFormat twoDP = new DecimalFormat("###0.0##");
                 for (Point2D p: convertedArr)
                     System.out.println("(" + twoDP.format(p.xPoint) + ", " 
