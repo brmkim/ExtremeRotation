@@ -5,23 +5,23 @@
  */
 package ExtRotation;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
- * @author boram
+ * @author boram, Phuong
  */
-public class Point2D 
+public class Point2D implements Serializable 
 {
     double yPoint = 0.0;
     double xPoint = 0.0;
     double point = 0.0;
-    double xPrime = 0.0;
-    double yPrime = 0.0;
+   
     // default constructor
     public Point2D()
     {
-        this(0.0, 0.0);
+       xPoint = yPoint = 0.0;
     }
     // constructor that takes x & y points
     public Point2D(Double x, Double y) 
@@ -44,27 +44,36 @@ public class Point2D
     {
         return yPoint;
     }
-    
-    // mutator - ?
-    
+   
     // Rotator
-    public ArrayList rotator(ArrayList<Point2D> pointsList, double theta)
+//    public ArrayList<Point2D> rotator(ArrayList<Point2D> pointsList,  
+//            double theta)   // putting the rotated points in the ArrayList is
+                               // efficient but i had a small problem with it
+//    {
+//        ArrayList<Point2D> rotatedPoints = new ArrayList<>();
+//
+//        for (Point2D pt: pointsList) 
+//        {   
+//            xPrime = (pt.xPoint *  Math.cos(theta) 
+//                    - pt.yPoint * Math.sin(theta));
+//            yPrime = (pt.xPoint *  Math.sin(theta) ) 
+//                    + (pt.yPoint * Math.cos(theta));
+//            Point2D sets = new Point2D(xPrime, yPrime); 
+//            rotatedPoints.add(sets);
+//        }
+//        
+//        return rotatedPoints;
+//    }
+    public  static Point2D rotator(Point2D point, double theta)  
     {
-        ArrayList<Point2D> rotatedPoints = new ArrayList<>();
-
-        for (Point2D pt: pointsList) 
-        {   // some problem here that needs to be fixed
-            xPrime = (pt.xPoint *  Math.cos(theta) 
-                    - pt.yPoint * Math.sin(theta));
-            yPrime = (pt.xPoint *  Math.sin(theta) ) 
-                    + (pt.yPoint * Math.cos(theta));
-            Point2D sets = new Point2D(xPrime, yPrime); 
-            rotatedPoints.add(sets);
-        }
+        double newX = point.xPoint *  Math.cos(theta)   - point.yPoint * Math.sin(theta);
+        double newY = point.xPoint *  Math.sin(theta)  
+                    + point.yPoint * Math.cos(theta);
         
-        return rotatedPoints;
+        return new Point2D(newX, newY);
     }
-     
+   
+//    @Override
 //   public String toString()
 //   {
 //       String xPointStr = String.valueOf(xPoint);
