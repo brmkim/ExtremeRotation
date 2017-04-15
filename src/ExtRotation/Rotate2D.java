@@ -31,7 +31,10 @@ public class Rotate2D
     public static void main(String[] args)
     {
         Scanner input = new Scanner(System.in);
-        Point2D p2d = null;
+        Point2D p2d = null;  // objects inside main method needs to be initialized to null. Not sure why.
+        ArrayList<Point2D> pointsList = null;
+        Point2D[] arr = null;
+        Point2D[] convertedArr = null; 
         if (args.length < 2)  // else read input file
         {
             System.out.print("Would you like to read from a text file? (y/n) ");
@@ -48,8 +51,11 @@ public class Rotate2D
             // When reading from a file    
             if (response.equals("Y") || response.equals("y"))  // needs some fixing
             {   
-                Point2D points = readFile();
-                // more code
+                Point2D[] points = readFile();
+                pointsList = new ArrayList<>(Arrays.asList(points)); 
+                // Above) what's inside the bin file is an array of Point2D, 
+                // so convert it into array then convert that array ArrayList 
+                // of Pont2D
             }
             // When not reading from a file            
             else if (response.equals("N") || response.equals("n"))
@@ -59,7 +65,7 @@ public class Rotate2D
                 System.out.println("Enter a non-numeric value to stop.");
                
                 double xPoint = 0.0, yPoint = 0.0; 
-                ArrayList<Point2D> pointsList = new ArrayList<>();
+                pointsList = new ArrayList<>();
                 
                 boolean repeat = true;
                 do 
@@ -89,7 +95,7 @@ public class Rotate2D
                         pointsList.add(p2d);
                     }
                 }while(repeat);
-                
+            }
                 System.out.print("Please enter the angle of rotation ");
                 System.out.print("(-360 <= angle <= 360): ");
                 Scanner angleInput = new Scanner(System.in);
@@ -101,15 +107,18 @@ public class Rotate2D
                 System.out.println("entered points: ");  
                 for (Point2D p: pointsList) // printing 
                     System.out.println("(" + p.xPoint + ", " + p.yPoint + ") ");
-                Point2D[] arr = new Point2D[pointsList.size()]; 
-                Point2D[] convertedArr = new Point2D[pointsList.size()]; 
+                arr = new Point2D[pointsList.size()]; 
+                convertedArr = new Point2D[pointsList.size()]; 
                 arr = pointsList.toArray(arr);
                
                 System.out.println("points rotated " + angle + " degrees: ");
                 for (int i = 0; i < pointsList.size(); i++)
                 {
                     Point2D point = arr[i];
-                    Point2D convteredPoint = Point2D.rotator(point, radian);
+                    Point2D convteredPoint = (new Point2D()).rotator(point, radian); 
+                    // Above) The method is not to be a static (if it's static 
+                    // it won't be serializable) so needed to create an object 
+                    // to call the method
                     convertedArr[i] = convteredPoint;
                 }
                 // show rotated points
@@ -117,7 +126,7 @@ public class Rotate2D
                 for (Point2D p: convertedArr)
                     System.out.println("(" + twoDP.format(p.xPoint) + ", " 
                             + twoDP.format(p.yPoint) + ")");   
-            }
+            
             
             // ask if the user wants to save the original and/or 
             // rotated points into a binary file
@@ -128,20 +137,20 @@ public class Rotate2D
             String response2 = newInput.next();
             if (response2.equals("Y") || response2.equals("y")) 
             {
-                saveFile();
-                response2 = null;
-                // more code                
+                saveFile(arr);
+                response2 = null;  // erase what's written to recycle the var       
             }
             System.out.println("Save rotate points as binary file?");
             response2 = newInput.next();
             if (response2.equals("Y") || response2.equals("y")) 
             {
-                saveFile();
-                // more code                
+                convertedArr = pointsList.toArray(arr); // converting it into
+                                //pointList here only for a formatting reason
+                saveFile(convertedArr);   
             }
         }    
     }  
-    public static Point2D readFile()  // needs fixing
+    public static Point2D[] readFile()  // read bin file and returns Point2D array
     {
         FileInputStream readFileStream = null;
         ObjectInputStream inputStream = null;
@@ -160,10 +169,10 @@ public class Rotate2D
                     + filename + ".");
             System.exit(0);
         }
-        Point2D readOne = null; // destroy old objects
+        Point2D[] readOne = null; // destroy old reaOne object
         try
         {
-            readOne = (Point2D) inputStream.readObject();
+            readOne = (Point2D[]) inputStream.readObject();
             inputStream.close();
         }
         catch(Exception e)
@@ -172,10 +181,9 @@ public class Rotate2D
                     + filename + ".");
             System.exit(0);
         }
-        System.out.println(readOne);
         return readOne;
     }
-    public static void saveFile() // needs fixing
+    public static void saveFile(Point2D[] obj) // take the Point2D array and save into bin file
     {
         ObjectOutputStream outputStream = null;
         System.out.print("Enter the file name: ");
@@ -185,7 +193,7 @@ public class Rotate2D
         try
         {
             outputStream = new ObjectOutputStream(
-                           new FileOutputStream(filename));  // either objectOPS or fileOPS
+                           new FileOutputStream(filename));  
         }
         catch(IOException e) // if the file is not there
         {
@@ -193,9 +201,7 @@ public class Rotate2D
                                 filename + ".");
             System.exit(0);
         }
-        Point2D points = new Point2D();
-        //DateAD today = new DateAD();
-        //DateAD tomorrow = today.getTomorrow();
+        Point2D[] points = obj;  //
         try
         {
             outputStream.writeObject(points);
