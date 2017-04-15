@@ -11,8 +11,8 @@ import java.io.Serializable;
  *
  * @author boram, Phuong
  */
-public class Point2D implements Serializable // serializable imprementation is needed for reading/writing to a file
-{
+public class Point2D implements Serializable 
+{ // serializable imprementation is needed for reading/writing to a file
 
     double yPoint = 0.0;
     double xPoint = 0.0;
@@ -66,7 +66,8 @@ public class Point2D implements Serializable // serializable imprementation is n
 //    }
     public  Point2D rotator(Point2D point, double theta)
     {
-        double newX = point.xPoint * Math.cos(theta) - point.yPoint * Math.sin(theta);
+        double newX = point.xPoint * Math.cos(theta) 
+                - point.yPoint * Math.sin(theta);
         double newY = point.xPoint * Math.sin(theta)
                 + point.yPoint * Math.cos(theta);
 
