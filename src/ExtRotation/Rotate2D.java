@@ -27,14 +27,15 @@ import java.util.Scanner;
  */
 public class Rotate2D 
 {
+    
     public static void main(String[] args)
     {
-        
+        Scanner input = new Scanner(System.in);
         Point2D p2d = null;
         if (args.length < 2)  // else read input file
         {
             System.out.print("Would you like to read from a text file? (y/n) ");
-            Scanner input = new Scanner(System.in);
+            
             String response = input.next();
             // prompt until correct character is entered
             while (!(response.equals("Y") || response.equals("y") 
@@ -44,8 +45,14 @@ public class Rotate2D
                         + "(y/n) ");
                 response = input.next();
             }
+            // When reading from a file    
+            if (response.equals("Y") || response.equals("y"))  // needs some fixing
+            {   
+                Point2D points = readFile();
+                // more code
+            }
             // When not reading from a file            
-            if (response.equals("N") || response.equals("n"))
+            else if (response.equals("N") || response.equals("n"))
             {
                 System.out.println("No points are entered.");
                 System.out.println("Enter your list of points.");
@@ -111,57 +118,96 @@ public class Rotate2D
                     System.out.println("(" + twoDP.format(p.xPoint) + ", " 
                             + twoDP.format(p.yPoint) + ")");   
             }
-            // When reading from a file    
-            else if (response.equals("Y") || response.equals("y"))  // needs some fixing
-            {   // ask file input
-                 ObjectInputStream inputStream = null;
-                System.out.print("Enter the file name: ");
-                String filename = input.next();
-                            
-                // read file
-                try
-                {
-                    inputStream = new ObjectInputStream(
-                            new FileInputStream(filename));
-                }
-                catch (IOException e)
-                {
-                    System.out.println("Error opening input file " 
-                            + filename + ".");
-                    System.exit(0);
-                }
-                Point2D readOne = null; // destroy old objects
-                try
-                {
-                    readOne = (Point2D) inputStream.readObject();
-                    inputStream.close();
-                }
-                catch(Exception e)
-                {
-                    System.out.println("Error reading from file " 
-                            + filename + ".");
-                    System.exit(0);
-                }
-                System.out.println(readOne);
-            }
+            
             // ask if the user wants to save the original and/or 
             // rotated points into a binary file
-            String file = "";
             System.out.println("Save original points as binary file?");
-            response = input.next();
-            if (response.equals("Y") || response.equals("y")) 
+            Scanner newInput = new Scanner(System.in); // made a new scanner 
+            //because the previous scanner retains the non-numeric value used to
+            //get out of the x/y coordinate question
+            String response2 = newInput.next();
+            if (response2.equals("Y") || response2.equals("y")) 
             {
-                System.out.print("Enter the file name: ");
-                file = input.next();
+                saveFile();
+                response2 = null;
                 // more code                
             }
             System.out.println("Save rotate points as binary file?");
-            if (response.equals("Y") || response.equals("y")) 
+            response2 = newInput.next();
+            if (response2.equals("Y") || response2.equals("y")) 
             {
-                System.out.print("Enter the file name: ");
-                file = input.next();
+                saveFile();
                 // more code                
             }
         }    
     }  
+    public static Point2D readFile()  // needs fixing
+    {
+        FileInputStream readFileStream = null;
+        ObjectInputStream inputStream = null;
+        System.out.print("Enter the file name: ");
+        Scanner input = new Scanner(System.in);
+        String filename = input.next();
+        // read file
+        try
+        {
+            readFileStream = new FileInputStream(filename);
+            inputStream = new ObjectInputStream(readFileStream);
+        }
+        catch (IOException e)
+        {
+            System.out.println("Error opening input file " 
+                    + filename + ".");
+            System.exit(0);
+        }
+        Point2D readOne = null; // destroy old objects
+        try
+        {
+            readOne = (Point2D) inputStream.readObject();
+            inputStream.close();
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error reading from file " 
+                    + filename + ".");
+            System.exit(0);
+        }
+        System.out.println(readOne);
+        return readOne;
+    }
+    public static void saveFile() // needs fixing
+    {
+        ObjectOutputStream outputStream = null;
+        System.out.print("Enter the file name: ");
+        Scanner input = new Scanner(System.in);
+        String filename = input.next();
+        
+        try
+        {
+            outputStream = new ObjectOutputStream(
+                           new FileOutputStream(filename));  // either objectOPS or fileOPS
+        }
+        catch(IOException e) // if the file is not there
+        {
+            System.out.println("Error opening output file " +
+                                filename + ".");
+            System.exit(0);
+        }
+        Point2D points = new Point2D();
+        //DateAD today = new DateAD();
+        //DateAD tomorrow = today.getTomorrow();
+        try
+        {
+            outputStream.writeObject(points);
+            outputStream.close( );
+        }
+        catch(IOException e)
+        {
+            System.out.println("Error writing to file " +
+                                filename + ".");
+            System.exit(0);
+        }
+        System.out.println("Records sent to file " +
+                            filename + ".");
+    }
 }

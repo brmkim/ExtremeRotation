@@ -12,7 +12,7 @@ import java.util.ArrayList;
  *
  * @author boram, Phuong
  */
-public class Point2D implements Serializable 
+public class Point2D implements Serializable // serializable imprementation is needed for reading/writing to a file
 {
     double yPoint = 0.0;
     double xPoint = 0.0;
@@ -64,7 +64,7 @@ public class Point2D implements Serializable
 //        
 //        return rotatedPoints;
 //    }
-    public  static Point2D rotator(Point2D point, double theta)  
+    public  static Point2D rotator(Point2D point, double theta)   // static here...(potential serializable problem)
     {
         double newX = point.xPoint *  Math.cos(theta)   - point.yPoint * Math.sin(theta);
         double newY = point.xPoint *  Math.sin(theta)  
