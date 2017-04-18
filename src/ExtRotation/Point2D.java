@@ -16,8 +16,7 @@ public class Point2D implements Serializable
 
     double yPoint = 0.0;
     double xPoint = 0.0;
-    double point = 0.0;
-
+   
     // default constructor
     public Point2D() {
         xPoint = yPoint = 0.0;
