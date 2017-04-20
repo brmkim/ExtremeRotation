@@ -1,18 +1,10 @@
-/* User interface class -- contains main and other necessary methods
- * - Add -b options for reading binary files
- * - No command arg || file does not exist || is not readable then read input
- *   and put into an ArrayList<point2D>. Input stops when no-numeric input is 
- *    entered
- * - File exits && readable then read the contents of the file into an array
- * - Ask an angle input in degrees. Convert it into radians
- * - Create second array that contain all of the points rotated. 
- * - Display both input and output points
+/*
+ * ExtRotation package contains Point2D class and Rotate2D class
  */
 package ExtRotation;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -23,12 +15,43 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 /**
- *
- * @author boram, Phuong 
+ * filename: Rotate2D.java
+ * class: Rotate2D
+ * User-interface class that contains main and other methods for the program
+ * The program takes type double values for x and y coordinates from reading 
+ * a text or binary file, or from the keyboard; It asks an angle input in 
+ * degrees and convert it into radians; displays the rotated points up to 
+ * 4 decimal points on the screen and save the original and changed points 
+ * into a binary file if needed
+ *  
+ * @author Boram Kim, Phuong Tran
+ * @version 1.6
+ * 
+ * Compiler: Java 1.8 <br>
+ * OS: Windows 10 <br>
+ * Hardware: HP Laptop <br>
+ * @author Boram Kim, Phuong Tran 
+ * 
+ * Log:
+ * 04/10/2017 BK version 1 completed
+ * 04/11/2017 PT added code for making ArrayList to Point2D array
+ * 04/13/2017 BK added DecimalFormatter
+ * 04/14/2017 BK discarded using ArrayList for rotated points; added readFile
+ *               and saveFIle methods
+ * 04/15/2017 BK added -b option for reading bin file; changed the flow a bit
+ * 04/18/2017 BK added readTxtFile() and readPoints() method
+ * 04/19/2017 BK did some testing; added more comments
  */
 public class Rotate2D 
 {
-    
+    /**
+     * Inputs numbers for x and y coordinates and an angle to rotate them
+     * Displays the results (both original and changed) of up to 4 decimal 
+     * points on the screen; prompt if the user wants to save them in binary
+     * file   
+     * @param args arguments from command line
+     * Calls readTxtFile, readFile, readPoints, saveFile
+     */
     public static void main(String[] args)
     {
         Scanner input = new Scanner(System.in);
@@ -163,8 +186,14 @@ public class Rotate2D
                             //pointList here only for a formatting reason
             saveFile(convertedArr);   
         }
-
     }
+    /**
+     * reads x and y points from the keyboard, make them Point2D objects,  and
+     * then add them to an ArrayList
+     * Input: type double x and y coordinates from keyboard
+     * Output: ArrayList of Point2D objects to System
+     * @return pointsList -- an ArrayList of sets of x and y points
+     */
     public static ArrayList<Point2D> readPoints()
     {
         ArrayList<Point2D> pointsList = new ArrayList<>();
@@ -208,13 +237,21 @@ public class Rotate2D
         
         return pointsList;
     }
+    /**
+     * reads in a text file for input; if the file does not exist or readable
+     * calls readPoints method that prompt input from System.in
+     * Input: a text file of x and y coordinates
+     * Output: ArrayList of Point2D objects to System
+     * @param fname txt file name specified in command line
+     * @return pointsList -- an ArrayList of sets of x and y points 
+     */
     public static ArrayList<Point2D>  readTxtFile(String fname)
     { // this method read txt file and return an ArrayList of the points                                                      
-        File fileObject = new File(fname); // Or pass this and use PrintWriter?
+        File fileObject = new File(fname); 
         Scanner fileInputScanner;
         double xPoint = 0.0, yPoint = 0.0;
         Point2D p2d = null;
-        ArrayList<Point2D> pointsList = new ArrayList<>();;
+        ArrayList<Point2D> pointsList = new ArrayList<>();
         
         // if the file exists and is readable
         if  (fileObject.exists() && fileObject.canRead())
@@ -222,7 +259,6 @@ public class Rotate2D
             try
             {
                 fileInputScanner = new Scanner(fileObject);
-              //  fileOutput = new PrintWriter(new FileOutputStream(fname));
                 boolean quit = false;
                 int numberOfSets = 0;
                 
@@ -279,6 +315,14 @@ public class Rotate2D
         
         return pointsList;
     }
+    /**
+     * reads in a binary file for input; if the file does not exist or readable
+     * calls readPoints method that prompt input from System.in
+     * Input: a binary file of Point2D object
+     * Output: ArrayList of Point2D objects to System
+     * @param fname bin file name specified in command line
+     * @return pointsList -- an ArrayList of sets of x and y points 
+     */
     public static ArrayList<Point2D> readFile(String fname) // read bin file
     {
         FileInputStream readFileStream = null;
@@ -328,7 +372,12 @@ public class Rotate2D
         }
         return pointsList;
     }
-    
+    /**
+     * saves the coordinate values into a binary file
+     * Input: Point2D object that contains values for x and y coordinates
+     * Output: bin file of the object
+     * @param obj Point2D object to be saved
+     */
     public static void saveFile(Point2D[] obj)
     {
         ObjectOutputStream outputStream = null;
