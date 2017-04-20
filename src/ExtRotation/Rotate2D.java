@@ -10,16 +10,13 @@
  */
 package ExtRotation;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,14 +39,19 @@ public class Rotate2D
         Point2D[] convertedArr = null; 
         String filename = null;
         DecimalFormat twoDP = new DecimalFormat("###0.0###");
-        if (args.length == 1)
+        if (args.length == 1 && args[0].contains(".txt"))
         { // if cmd arguments has txt file
             filename = args[0]; // take filename as a string
             pointsList = readTxtFile(filename);
         }
-        else if (args.length == 2)
-        { // if cmd line arguments has -b option and the file name
-            filename = args[1];
+        else if (args.length == 2 && (args[0].contentEquals("-b") || 
+                args[1].contentEquals("-b")))
+        { // if cmd line arguments has -b option and the file name 
+            // the -b argument could be before or after the file name
+            if (args[0].contentEquals("-b"))
+                filename = args[1];
+            else if (args[1].contentEquals("-b"))
+                filename = args[0];
             pointsList = readFile(filename);
         }
         else if (args.length < 1)  // else ask whether to read an input file 
@@ -70,7 +72,7 @@ public class Rotate2D
             {   
                 System.out.print("Enter the file name: ");
                 filename = input.next();
-                pointsList= readFile(filename);
+                pointsList = readFile(filename);
                 
                 // Above) what's inside the bin file is an array of Point2D, 
                 // so convert it into array then convert that array ArrayList 
@@ -81,75 +83,87 @@ public class Rotate2D
                 pointsList = readPoints();
             }
         }
-        // When not reading from a file OR fail to read the file.       
-        // the codes below are similar to the ones above but are different
+        // When extra cmd line argument is given but fail to read the file name
+        // or path provided 
+        else
+        {
+           pointsList = readPoints(); 
+        }
         
-        // insert a method here
-        
-        
-            System.out.print("Please enter the angle of rotation ");
-            System.out.print("(-360 <= angle <= 360): ");
-            Scanner angleInput = new Scanner(System.in);
-            double angle = 0.0;
-            if (angleInput.hasNextDouble())
-                angle = angleInput.nextDouble();
-            Double radian = angle * (Math.PI / 180);
+        // proceed to the next step
+        System.out.print("Please enter the angle of rotation ");
+        System.out.print("(-360 <= angle <= 360): ");
+        Scanner angleInput = new Scanner(System.in);
+        double angle = 0.0;
+        if (angleInput.hasNextDouble())
+            angle = angleInput.nextDouble();
+        // adjusting the angle within the range. It still works without 
+        // doing this, but it seems like Paul did this way. So I'm adjusting it. 
+        if (angle > 360)
+        {
+            while (angle > 360)
+                angle -= 360;
+        }
+        else if (angle < -360)
+        {
+            while (angle < -360)
+                angle += 360;
+        }
+        Double radian = angle * (Math.PI / 180);
 
-            // show entered points
-            System.out.println("entered points: ");  
-            for (Point2D p: pointsList) // printing 
-                System.out.println("(" + twoDP.format(p.xPoint) + ", " 
-                        + twoDP.format(p.yPoint) + ") ");
-            // declare two Point2D object array variables
-            arr = new Point2D[pointsList.size()]; 
-            convertedArr = new Point2D[pointsList.size()]; 
-            // make the pointsList (an ArrayList) into the object array
-            arr = pointsList.toArray(arr);
+        // show entered points
+        System.out.println("\nentered points: ");  
+        for (Point2D p: pointsList) // printing 
+            System.out.println("(" + twoDP.format(p.xPoint) + ", " 
+                    + twoDP.format(p.yPoint) + ") ");
+        // declare two Point2D object array variables
+        arr = new Point2D[pointsList.size()]; 
+        convertedArr = new Point2D[pointsList.size()]; 
+        // make the pointsList (an ArrayList) into the object array
+        arr = pointsList.toArray(arr);
 
-            System.out.println("points rotated " + angle + " degrees: ");
-            for (int i = 0; i < pointsList.size(); i++)
-            {
-                // make each array member (each point) into an Point2D object 
-                // then use Point2D class's rotator method on it 
-                Point2D point = arr[i];
-                Point2D convteredPoint = (new Point2D()).rotator(point, 
-                        radian); 
-                // Above) The method is not to be a static (if it's static 
-                // it won't be serializable) so needed to create an object 
-                // to call the method
-                
-                // now put those convertedPoint objects into the object array
-                convertedArr[i] = convteredPoint;
-                
-            }
-           
-            // show rotated points
-            for (Point2D p: convertedArr)
-                System.out.println("(" + twoDP.format(p.xPoint) + ", " 
-                        + twoDP.format(p.yPoint) + ")");   
+        System.out.println("\npoints rotated " + angle + " degrees: ");
+        for (int i = 0; i < pointsList.size(); i++)
+        {
+            // make each array member (each point) into an Point2D object 
+            // then use Point2D class's rotator method on it 
+            Point2D point = arr[i];
+            Point2D convteredPoint = (new Point2D()).rotator(point, 
+                    radian); 
+            // Above) The method is not to be a static (if it's static 
+            // it won't be serializable) so needed to create an object 
+            // to call the method
 
-            
-            // ask if the user wants to save the original and/or 
-            // rotated points into a binary file
-            System.out.println("Save original points as binary file?");
-            Scanner newInput = new Scanner(System.in); // made a new scanner, 
-            //because the previous scanner retains the non-numeric value used to
-            //get out of the x/y coordinate question
-            String response2 = newInput.next();
-            if (response2.equals("Y") || response2.equals("y")) 
-            {
-                saveFile(arr);
-                response2 = null;  // erase what was written to recycle the var       
-            }
-            System.out.println("Save rotate points as binary file?");
-            response2 = newInput.next();
-            if (response2.equals("Y") || response2.equals("y")) 
-            {
-                convertedArr = pointsList.toArray(arr); // converting it into
-                                //pointList here only for a formatting reason
-                saveFile(convertedArr);   
-            }
-            
+            // now put those convertedPoint objects into the object array
+            convertedArr[i] = convteredPoint;
+        }
+
+        // show rotated points
+        for (Point2D p: convertedArr)
+            System.out.println("(" + twoDP.format(p.xPoint) + ", " 
+                    + twoDP.format(p.yPoint) + ")"); 
+
+        // ask if the user wants to save the original and/or 
+        // rotated points into a binary file
+        System.out.println("Save original points as binary file?");
+        Scanner newInput = new Scanner(System.in); // made a new scanner, 
+        //because the previous scanner retains the non-numeric value used to
+        //get out of the x/y coordinate question
+        String response2 = newInput.next();
+        if (response2.equals("Y") || response2.equals("y")) 
+        {
+            saveFile(arr);
+            response2 = null;  // erase what was written to recycle the var       
+        }
+        System.out.println("Save rotate points as binary file?");
+        response2 = newInput.next();
+        if (response2.equals("Y") || response2.equals("y")) 
+        {
+            convertedArr = pointsList.toArray(arr); // converting it into
+                            //pointList here only for a formatting reason
+            saveFile(convertedArr);   
+        }
+
     }
     public static ArrayList<Point2D> readPoints()
     {
@@ -285,7 +299,8 @@ public class Rotate2D
             {
                 System.out.println("Error opening input file " 
                         + fname + ".");
-                System.exit(0);
+                pointsList = readPoints();
+                return pointsList;
             }
         }
          else if (!fileObject.exists()) // if file doesn't exit 
@@ -298,12 +313,12 @@ public class Rotate2D
         {
             System.out.println("File is not readable.");
             pointsList = readPoints();
-            return pointsList;        }
+            return pointsList;       
+         }
         try
         {
             objArray = (Point2D[]) inputStream.readObject();
             pointsList = new ArrayList<>(Arrays.asList(objArray));
-            pointsList = readPoints();
         }
         catch(Exception e)
         {
